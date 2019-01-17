@@ -2,7 +2,7 @@
 
 
 ; Key: Win+W
-#w::
+<#w::
 /* 
     Close focused active window.
     (Can't Reopen)
@@ -17,7 +17,7 @@ hid_windows_pointer := []
 
 
 ; Key: LShift+Win+W
-<+#w:: 
+<+<#w:: 
 /* 
     Hide focused active window, and save it into hid_windows_pointer.
     
@@ -41,7 +41,7 @@ return
 
 
 ; Key: Win+`
-#`:: 
+<#`:: 
 ; TODO:
 /* 
     1. Show hid_windows_pointer list.
@@ -59,7 +59,7 @@ return
 
 
 ; Key: LShift+Win+`
-<+#`::
+<+<#`::
 /* 
     Reopen all of hid windows
  */ 
