@@ -40,10 +40,29 @@ hid_windows_pointer := []
 return
 
 
+; Key: LCtrl+LShift+Win+W
+<^<+<#w::
+/*
+    TODO:
+    Delete ALL
+ */
+
+return
+
+
+; Key: LCtrl+LShift+LAlt+Win+W
+<^<+<!<#w::
+/* 
+    TODO:
+    ?
+ */
+return
+
+
 ; Key: Win+`
 <#`:: 
-; TODO:
 /* 
+    TODO:
     1. Show hid_windows_pointer list.
     2. Manage windows. (Delete, Restore, ...)
     3. Execute
