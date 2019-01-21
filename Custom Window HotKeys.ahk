@@ -13,19 +13,19 @@
 return
 
 
-hid_windows_pointer := []
+hidden_windows_ptr := []
 
 
 ; Key: LShift+Win+W
 <+<#w:: 
 /* 
-    Hide focused active window, and save it into hid_windows_pointer.
+    Hide focused active window, and save it into hidden_windows_ptr.
     
     === WARNING! ===
     It's just imitating close event!
     The Program is just gonna be HIDDEN, NOT CLOSED!
 
-    If you want to CLOSE, use Wih+W
+    If you want to CLOSE, use Win+W
 
  */
     WinGetClass, class, A
@@ -34,42 +34,30 @@ hid_windows_pointer := []
 
         WinGetTitle, Title, A
         WinHide, %Title%
-        hid_windows_pointer.Push(Title)
+        hidden_windows_ptr.Push(Title)
 
-        SetTimer, AutoCloseHidWindow, 20000
+        SetTimer, AutoCloseHiddenWindow, 20000
 return
 
 
-; Key: LCtrl+LShift+Win+W
-<^<+<#w::
-/*
-    TODO:
-    Delete ALL
- */
+; ; Key: LCtrl+LShift+Win+W
+; <^<+<#w::
 
-return
-
-
-; Key: LCtrl+LShift+LAlt+Win+W
-<^<+<!<#w::
-/* 
-    TODO:
-    ?
- */
-return
+; ; Key: LCtrl+LShift+LAlt+Win+W
+; <^<+<!<#w::
 
 
 ; Key: Win+`
 <#`:: 
 /* 
     TODO:
-    1. Show hid_windows_pointer list.
+    1. Show hidden_windows_ptr list.
     2. Manage windows. (Delete, Restore, ...)
     3. Execute
  */
     msg := ""
-    Loop % hid_windows_pointer.Length() {
-        msg := msg "`n" A_Index " : " hid_windows_pointer[A_Index] 
+    Loop % hidden_windows_ptr.Length() {
+        msg := msg "`n" A_Index " : " hidden_windows_ptr[A_Index] 
     }
 
     MsgBox % "===== Hid Windows List =====`n" msg
@@ -82,34 +70,44 @@ return
 /* 
     Reopen all of hid windows
  */ 
-    SetTimer, AutoCloseHidWindow, Off
+    SetTimer, AutoCloseHiddenWindow, Off
 
     msg := ""
-    Loop % hid_windows_pointer.Length() {
-        WinShow, % hid_windows_pointer[A_Index]
-        WinActivate, % hid_windows_pointer[A_Index]
+    Loop % hidden_windows_ptr.Length() {
+        WinShow, % hidden_windows_ptr[A_Index]
+        WinActivate, % hidden_windows_ptr[A_Index]
 
-        msg := msg "`n" A_Index " : " hid_windows_pointer[A_Index] 
+        msg := msg "`n" A_Index " : " hidden_windows_ptr[A_Index] 
     }
 
     MsgBox % "===== Restored =====`n" msg
 
-    hid_windows_pointer:=[]
+    hidden_windows_ptr:=[]
 return
 
+
+; Key: LCtrl+LShift+Win+`
+<^<+<#`::
+/*
+    TODO:
+    1. CLOSE ALL Hidden Windows
+    2. Empty 'hidden_windows_ptr'
+ */
+
+return
 
 
 ;;;;;;;;;; Functions
 
 
 ; def
-AutoCloseHidWindow:
+AutoCloseHiddenWindow:
 /* 
 
  */
-    If (hid_windows_pointer.length()=1) ; only one window left to hide. If it's 
-        SetTimer, AutoCloseHidWindow, Off
+    If (hidden_windows_ptr.length()=1) ; only one window left to hide. If it's 
+        SetTimer, AutoCloseHiddenWindow, Off
 
     DetectHiddenWindows, On
-    PostMessage, 0x112, 0xF060,,, % hid_windows_pointer.RemoveAt(1) ; hide first window in the hid_windows_pointer
+    PostMessage, 0x112, 0xF060,,, % hidden_windows_ptr.RemoveAt(1) ; hide first window in the hidden_windows_ptr
 return
