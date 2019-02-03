@@ -1,0 +1,21 @@
+SetTitleMatchMode, RegEx
+WinGet, var_out, List, NotePad
+
+up::
+Loop, %var_out%
+{
+    Hwnd := var_out%A_Index%
+    ControlSend, , {up 4}, ahk_id %Hwnd%
+}
+return
+
+down::
+Loop, %var_out%
+{
+    Hwnd := var_out%A_Index%
+    ControlSend, , {down 4}, ahk_id %Hwnd%
+}
+return
+
+
+Esc::ExitApp
