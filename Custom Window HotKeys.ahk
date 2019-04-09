@@ -13,6 +13,16 @@
 return
 
 
+; https://superuser.com/questions/33142/ctrlbackspace-inserts-a-small-box-instead-of-erasing/636973
+#IfWinActive ahk_class CabinetWClass
+/*
+    Enable Ctrl+Backspace in File Explorer
+*/
+
+    ^Backspace::
+    Send ^+{Left}{Backspace}
+#IfWinActive
+
 
 
 
