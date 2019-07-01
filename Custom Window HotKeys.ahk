@@ -1,7 +1,6 @@
 ;;;;;;;;;; HotKeys
 
 
-; Key: Win+W
 <#w::
 /* 
     Close focused active window.
@@ -13,15 +12,29 @@
 return
 
 
+
+; ; Key: LWin + Tab 
+; ;   -> Win + Ctrl + Shift + Alt + Tab
+; <#Tab::
+; /*
+;     Disable default Win+Tab shortcut to apply a shortcut in 7+ Taskbar Tweaker
+;  */
+
+; Send {LWin Down}{Ctrl Down}{Shift Down}{Alt Down}{Tab}{Alt Up}{Shift Up}{Ctrl Up}{LWin Up}  
+; return
+
+
+
 ; https://superuser.com/questions/33142/ctrlbackspace-inserts-a-small-box-instead-of-erasing/636973
 #IfWinActive ahk_class CabinetWClass
 /*
-    Enable Ctrl+Backspace in File Explorer
+    Enable Ctrl+Backspace in File Explorer and Notepad
 */
 
-    ^Backspace::
-    Send ^+{Left}{Backspace}
+<^Backspace::
+    Send {Ctrl Down}{Shift Down}{Left}{Delete}{Shift Up}{Ctrl Up}
 #IfWinActive
+
 
 
 
