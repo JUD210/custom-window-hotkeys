@@ -1,5 +1,23 @@
 ;;;;;;;;;; HotKeys
 
+; LCtrl LShift LAlt Win W
+; <^    <+     <!   <#  w
+
+
+<#z::
+  ; winwait, ahk_exe notepad++.exe
+
+  ; x = 1338
+  ; y := 121
+  ; MouseMove, 1338, 121
+  ; MouseClick, left, 1338, 121, 1
+  while GetKeyState("LWin", "P")
+  {
+    Send, {Shift Down}{End}{Delete}{Shift up}{Delete}
+  }
+  ; MsgBox,,,success,10!
+return
+
 
 <#w::
 /*
@@ -12,21 +30,31 @@
 return
 
 
-<#e::
+<#<!e::
 /*
     Open Double Commander (File Explorer)
 */
 
-  Run, doublecmd.exe, d:\OneDrive\[Collection]\[[Util]]\Portable\Double CMD\
+;  Run, doublecmd.exe, d:\OneDrive\[Collection]\[[Util]]\Portable\Double CMD\
+  Run, doublecmd.exe, C:\Users\judic\OneDrive\[Collection]\[[Util]]\Portable\Double CMD\
 return
 
-
 <#t::
+/*
+    Open Notepad++
+*/
+
+  Run, Notepad++.exe, C:\Program Files (x86)\Notepad++\notepad++.exe
+
+return
+
+<#<!t::
 /*
     Open VSCode Portable
 */
 
-  Run, Code.exe, d:\OneDrive\[Collection]\[[Util]]\Portable\VSCode Portable 1.36.0\
+;  Run, Code.exe, d:\OneDrive\[Collection]\[[Util]]\Portable\VSCode Portable\
+  Run, Code.exe, C:\Users\judic\OneDrive\[Collection]\[[Util]]\Portable\VSCode Portable\
 
 return
 
