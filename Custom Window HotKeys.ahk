@@ -1,77 +1,290 @@
-;;;;;;;;;; HotKeys
-
-; LCtrl LShift LAlt Win W
-; <^    <+     <!   <#  w
-
-
-<#z::
-  ; winwait, ahk_exe notepad++.exe
-
-  ; x = 1338
-  ; y := 121
-  ; MouseMove, 1338, 121
-  ; MouseClick, left, 1338, 121, 1
-  while GetKeyState("LWin", "P")
-  {
-    Send, {Shift Down}{End}{Delete}{Shift up}{Delete}
-  }
-  ; MsgBox,,,success,10!
-return
-
-
-<#w::
+;;;;;;;;;; Quick Find00000000000
 /*
-    Close focused active window.
-    (Can't Reopen)
+; Keys in AutoHotKey
+LCtrl LShift LAlt Win  Vk19  SC1F1
+<^    <+     <!   <#   한자  한자
+
+; My Custom Settings
+F13 (G604 Mouse) -
+F14 (G604 Mouse) -
+F15 (G604 Mouse) -
+
+F16 (G604 Mouse) -
+F17 (G604 Mouse) -
+F18 (G604 Mouse) -
+
+F19 (G604 Mouse) - AutoHotKey Related
+F20 (G604 Mouse) -
+
+
+; WARNING about Limitation
+ALL KEYMAPS WERE MAPPED BASED ON 'MicroSoft Ergonomic Keyboard' LAYOUT
+
+LCtrl Win LAlt 한자     Space     한/영 RAlt Context RCtrl
  */
 
-    WinGetTitle, Title, A
-    PostMessage, 0x112, 0xF060,,, %Title%
+
+
+;;;;;;;;;; Global Vars and Funcs
+terminal := "ahk_exe WindowsTerminal.exe"
+ide := "ahk_exe pycharm64.exe"
+
+prev_win_pid := ""
+active_win_pid := ""
+set_prev_win_pid() {
+	WinGet, prev_win_pid, PID, A
+}
+set_active_win_pid() {
+	WinGet, active_win_pid, PID, A
+}
+
+
+
+;;;;;;;;;; Custom KeyMaps
+CapsLock::LCtrl
+
+<^>^Left::		Send, {Ctrl Up}{Home}
+<^>^Right::		Send, {Ctrl Up}{End}
+<^>^Up::		Send, {Ctrl Up}{PgUp}
+<^>^Down::		Send, {Ctrl Up}{PgDn}
+<^+>^Left::		Send, {Ctrl Up}{Shift Down}{Home}{Shift Up}
+<^+>^Right::	Send, {Ctrl Up}{Shift Down}{End}{Shift Up}
+<^+>^Up::		Send, {Ctrl Up}{Shift Down}{PgUp}{Shift Up}
+<^+>^Down::		Send, {Ctrl Up}{Shift Down}{PgDn}{Shift Up}
+
+sc1F1::Space  ; sc1F1: 한자키 (Up event 없음 = Modifier키로 remap 불가능)
+sc121::AppsKey  ; SC121: 'Calculator' Key on MicroSoft Ergonomic Keyboard
+
+AppsKey::RAlt
+>!Left::		Send, {Alt Up}{Home}
+>!Right::		Send, {Alt Up}{End}
+>!Up::			Send, {Alt Up}{PgUp}
+>!Down::		Send, {Alt Up}{PgDn}
++>!Left::		Send, {Alt Up}{Shift Down}{Home}{Shift Up}
++>!Right::		Send, {Alt Up}{Shift Down}{End}{Shift Up}
++>!Up::			Send, {Alt Up}{Shift Down}{PgUp}{Shift Up}
++>!Down::		Send, {Alt Up}{Shift Down}{PgDn}{Shift Up}
+
+>!sc1F2::CapsLock  ; sc1F2: 한영키 (Up event 없음 = Modifier키로 remap 불가능)
+<#w::			Send, {Win Up}{Alt Down}{F4}{Alt Up}
+
+<+Backspace::	Send, {Shift Up}{Backspace Up}{Del}
+<^<+Backspace::	Send, {Shift Up}{Backspace Up}{Ctrl Down}{Del}{Ctrl Up}
+; <^<+<!Backspace:: 'Ctrl+Alt+Del' can't be used!
+; Use 'CamelHumps' feature with 'Ctrl+Shift+Alt+BackSpace' on IDE
+
+
+; a & b::c  ;Custom Combination (Custom Modifier): When holding 'a', If you push 'b', Type 'c' )
+
+
+
+;;;;;;;;;; Custom snippets
+:*:``dt1::  ; This hotstring replaces "`dt1" with the current date and time via the commands below.
+	FormatTime, CurrentDateTime,, yyyy/MM/dd hh:mm:ss
+	SendInput %CurrentDateTime%
+return
+:*:``dt2::
+	FormatTime, CurrentDateTime,, yyyy/MM/dd
+	SendInput %CurrentDateTime%
+return
+
+:*:``lh::127.0.0.1:8000/
+
+:*:``j@g::judicious210@gmail.com
+:*:``h@g::hyeogikarp@gmail.com
+
+
+
+;;;;;;;;;; Run
+<#t::  ; Open Notepad++
+	if not WinExist("ahk_exe notepad++.exe") {
+		Run, Notepad++.exe, C:\Program Files (x86)\Notepad++\notepad++.exe
+	} else if WinActive("ahk_exe notepad++.exe") {
+		WinMinimize
+	} else {
+		WinActivate
+	}
 return
 
 
-<#<!e::
-/*
-    Open Double Commander (File Explorer)
-*/
 
-;  Run, doublecmd.exe, d:\OneDrive\[Collection]\[[Util]]\Portable\Double CMD\
-  Run, doublecmd.exe, C:\Users\judic\OneDrive\[Collection]\[[Util]]\Portable\Double CMD\
+;;;;;;;;;; AutoHotKey Related
+F19::  ; Reload AutoHotKey script
+	Msgbox, 0, F19, [Success] Reloaded AutoHotKey script, 0.5
+	Reload
 return
 
-<#t::
-/*
-    Open Notepad++
-*/
-
-  Run, Notepad++.exe, C:\Program Files (x86)\Notepad++\notepad++.exe
-
+<^F19::  ; KeyHistory
+	if not WinExist("ahk_exe AutoHotkey.exe") {
+		KeyHistory
+	} else {
+		WinActivate, ahk_exe AutoHotkey.exe
+		Send, <!{F4}
+	}
 return
 
-<#<!t::
-/*
-    Open VSCode Portable
-*/
+<^<+F19::  ; WindowSpy
+	if not WinExist("Window Spy") {
+		Run, C:\Program Files\AutoHotkey\WindowSpy.ahk
+	} else if WinExist("Window Spy") {
+		WinClose
+	}
+return
 
-;  Run, Code.exe, d:\OneDrive\[Collection]\[[Util]]\Portable\VSCode Portable\
-  Run, Code.exe, C:\Users\judic\OneDrive\[Collection]\[[Util]]\Portable\VSCode Portable\
+<!F19::Suspend
+<!<+F19::Pause
 
+
+
+;;;;;;;;;; Dev Env (IDE)
+<#`::  ; Focus external terminal for IDE
+	if WinExist("ahk_exe WindowsTerminal.exe") {
+		if WinActive("ahk_exe WindowsTerminal.exe") {
+			WinActivate, %ide%
+		} else {
+			WinActivate, %terminal%
+		}
+	}
+	else {
+		if WinExist("ahk_exe pycharm64.exe") {
+			WinActivate, %ide%
+		}
+		Send, `#{``}
+	}
 return
 
 
-; https://superuser.com/questions/33142/ctrlbackspace-inserts-a-small-box-instead-of-erasing/636973
-#IfWinActive ahk_class CabinetWClass
-/*
-    Enable Ctrl+Backspace in File Explorer and Notepad
-*/
 
-<^Backspace::
-    Send {Ctrl Down}{Shift Down}{Left}{Delete}{Shift Up}{Ctrl Up}
-#IfWinActive
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; GAVE UP mapping 한자 key as a LCtrl key
+;
+; #InstallKeybdHook
+; SendSuppressedKeyUp(key) {
+;     DllCall("keybd_event"
+;         , "char", GetKeyVK(key)
+;         , "char", GetKeySC(key)
+;         , "uint", KEYEVENTF_KEYUP := 0x2
+;         , "uptr", KEY_BLOCK_THIS := 0xFFC3D450)
+; }
+
+; ; ; Test hotkey:
+; ; !SC1F1::MsgBox % A_ThisHotkey
+
+; ; Remap SC1F1 to LCtrl in a way compatible with IME.
+
+
+; /*
+; tttttttt
+; ttttttttttttttttttttttttttttt
+; tt
+; aaaaaaaaaaa
+; aaaaaaaaaaaaaaaaaaaaaaaaa
+; aaaaaaaaaaa
+;  */
+; Vk19::
+; 	MsgBox, 0, ,prevTime, 0.3
+; 	global prevTime := A_TickCount
+; 	Loop
+; 	{
+; 		TimeInterval := A_TickCount - prevTime
+; 		if (Timeinterval >= 1000)
+; 		{
+; 			send a
+; 			break
+; 		}
+; 	}
+; return
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
 
+
+; SC1F1::
+; 	global
+; 	Loop
+; 	{
+; 		send t
+; 		state := "D"
+; 		if (state = "D")
+; 		{
+; 			send a
+; 			continue
+; 		}
+; 		if (state = "U")
+; 		{
+; 			MsgBox "up"
+; 			break
+; 		}
+; 				GetKeyState, state, Shift
+
+; 	}
+; 	; if (state = "D")
+; 	; 	MsgBox At least one Shift key is down.
+; 	; else
+; 	; 	MsgBox Neither Shift key is down.
+; 	; if GetKeyState("")
+;     ; Send {Blind}{LCtrl DownR}
+; 	; Send {LCtrl down}
+;     ; SendSuppressedKeyUp("LCtrl")
+; return
+
+
+
+; SC1F1::
+; 	Send {LCtrl down}
+; 	SendSuppressedKeyUp("LCtrl")
+; 	return
+
+; SC1F1::LCtrl
+; SC1F1::
+; Send, {RControl down}
+; while(not GetKeyState(KeyName [, "P" or "T"]))
+; {
+; 	Send, a
+; }
+; Send, {RControl up}
+
+; return
+
+; <#w::
+; /*
+;     Close focused active window.
+;     (Can't Reopen)
+;  */
+
+;     WinGetTitle, Title, A
+;     PostMessage, 0x112, 0xF060,,, %Title%
+; return
+
+
+; <#<!e::
+; /*
+;     Open Double Commander (File Explorer)
+; */
+
+																	;   Run, doublecmd.exe, d:\OneDrive\[Collection]\[[Util]]\Portable\Double Commander\
+; ;  Run, doublecmd.exe, C:\Users\judic\OneDrive\[Collection]\[[Util]]\Portable\Double Commander\
+; return
+
+
+
+; CapsLock::LCtrl
+
+
+; >+capslock::
+;     SetCapsLockState, % (State:=!State) ? "On" : "Off"
+; return
+
+
+; capslock::
+;
+; KeyWait,capslock
+; if A_TimeSinceThisHotkey >= 200 ; in milliseconds.
+; SetCapsLockState, % (State:=!State) ? "On" : "Off"
+; else
+; Send, {vk15sc1F2}
+; return
 
 
 ; Key: LWin + Tab
