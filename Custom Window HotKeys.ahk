@@ -42,37 +42,50 @@ set_active_win_pid() {
 
 ;;;;;;;;;; Custom KeyMaps
 CapsLock::LCtrl
+vk19::RCtrl  ; vk19 sc11D: RCtrl(101 key 한자키)
 
-<^>^Left::		Send, {Ctrl Up}{Home}
-<^>^Right::		Send, {Ctrl Up}{End}
-<^>^Up::		Send, {Ctrl Up}{PgUp}
-<^>^Down::		Send, {Ctrl Up}{PgDn}
-<^+>^Left::		Send, {Ctrl Up}{Shift Down}{Home}{Shift Up}
-<^+>^Right::	Send, {Ctrl Up}{Shift Down}{End}{Shift Up}
-<^+>^Up::		Send, {Ctrl Up}{Shift Down}{PgUp}{Shift Up}
-<^+>^Down::		Send, {Ctrl Up}{Shift Down}{PgDn}{Shift Up}
+; <^>^Left::		Send, {Ctrl Up}{Home}
+; <^>^Right::		Send, {Ctrl Up}{End}
+; <^>^Up::		Send, {Ctrl Up}{PgUp}
+; <^>^Down::		Send, {Ctrl Up}{PgDn}
+; <^+>^Left::		Send, {Ctrl Up}{Shift Down}{Home}{Shift Up}
+; <^+>^Right::	Send, {Ctrl Up}{Shift Down}{End}{Shift Up}
+; <^+>^Up::		Send, {Ctrl Up}{Shift Down}{PgUp}{Shift Up}
+; <^+>^Down::		Send, {Ctrl Up}{Shift Down}{PgDn}{Shift Up}
 
 sc1F1::Space  ; sc1F1: 한자키 (Up event 없음 = Modifier키로 remap 불가능)
-sc121::AppsKey  ; SC121: 'Calculator' Key on MicroSoft Ergonomic Keyboard
+; sc1F2::Space  ; sc1F2: 한영키 (Up event 없음 = Modifier키로 remap 불가능)
+; sc121::AppsKey  ; SC121: 'Calculator' Key on MicroSoft Ergonomic Keyboard
+<#z::^y  ; sc1F2: 한영키 (Up event 없음 = Modifier키로 remap 불가능)
+<#Space::sc1F2  ; sc1F2: 한영키 (Up event 없음 = Modifier키로 remap 불가능)
+<#<!Space::CapsLock
 
 AppsKey::RAlt
->!Left::		Send, {Alt Up}{Home}
->!Right::		Send, {Alt Up}{End}
->!Up::			Send, {Alt Up}{PgUp}
->!Down::		Send, {Alt Up}{PgDn}
-+>!Left::		Send, {Alt Up}{Shift Down}{Home}{Shift Up}
-+>!Right::		Send, {Alt Up}{Shift Down}{End}{Shift Up}
-+>!Up::			Send, {Alt Up}{Shift Down}{PgUp}{Shift Up}
-+>!Down::		Send, {Alt Up}{Shift Down}{PgDn}{Shift Up}
+; >!Left::		Send, {Alt Up}{Home}
+; >!Right::		Send, {Alt Up}{End}
+; >!Up::			Send, {Alt Up}{PgUp}
+; >!Down::		Send, {Alt Up}{PgDn}
+; +>!Left::		Send, {Alt Up}{Shift Down}{Home}{Shift Up}
+; +>!Right::		Send, {Alt Up}{Shift Down}{End}{Shift Up}
+; +>!Up::			Send, {Alt Up}{Shift Down}{PgUp}{Shift Up}
+; +>!Down::		Send, {Alt Up}{Shift Down}{PgDn}{Shift Up}
+>^Left::		Send, {Ctrl Up}{Home}
+>^Right::		Send, {Ctrl Up}{End}
+>^Up::			Send, {Ctrl Up}{PgUp}
+>^Down::		Send, {Ctrl Up}{PgDn}
++>^Left::		Send, {Ctrl Up}{Shift Down}{Home}{Shift Up}
++>^Right::		Send, {Ctrl Up}{Shift Down}{End}{Shift Up}
++>^Up::			Send, {Ctrl Up}{Shift Down}{PgUp}{Shift Up}
++>^Down::		Send, {Ctrl Up}{Shift Down}{PgDn}{Shift Up}
 
->!sc1F2::CapsLock  ; sc1F2: 한영키 (Up event 없음 = Modifier키로 remap 불가능)
-<#w::			Send, {Win Up}{Alt Down}{F4}{Alt Up}
+
+<#w::
+<#<!w::			Send, {Win Up}{Alt Down}{F4}{Alt Up}
 
 <+Backspace::	Send, {Shift Up}{Backspace Up}{Del}
 <^<+Backspace::	Send, {Shift Up}{Backspace Up}{Ctrl Down}{Del}{Ctrl Up}
 ; <^<+<!Backspace:: 'Ctrl+Alt+Del' can't be used!
 ; Use 'CamelHumps' feature with 'Ctrl+Shift+Alt+BackSpace' on IDE
-
 
 ; a & b::c  ;Custom Combination (Custom Modifier): When holding 'a', If you push 'b', Type 'c' )
 
@@ -90,15 +103,52 @@ return
 
 :*:``lh::127.0.0.1:8000/
 
+:*:``j2::jud210
+:*:``ju2::judicious210
 :*:``j@g::judicious210@gmail.com
 :*:``h@g::hyeogikarp@gmail.com
+
+:*:``c_ks::3830326 53651014 97198394
+:*:``c_kb::8510226 53651014 79257341
+
+:*:``010::01098939189
 
 
 
 ;;;;;;;;;; Run
-<#t::  ; Open Notepad++
+<#t::
+	if not WinExist("Google Keep") {
+		Run, "C:\Users\judic\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Chrome Apps\Google Keep.lnk"
+	} else if WinActive("Google Keep") {
+		WinMinimize
+	} else {
+		WinActivate
+	}
+return
+
+<#c::
+	if not WinExist("[ Life RPG") {
+		Run, "C:\Users\judic\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Chrome Apps\Life RPG.lnk"
+	} else if WinActive("[ Life RPG") {
+		WinMinimize
+	} else {
+		WinActivate
+	}
+return
+
+<#<!c::
+	if not WinExist("Google Calendar") {
+		Run, "C:\Users\judic\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Chrome Apps\Google Calendar.lnk"
+	} else if WinActive("Google Calendar") {
+		WinMinimize
+	} else {
+		WinActivate
+	}
+return
+
+<#<!t::  ; Open Notepad++
 	if not WinExist("ahk_exe notepad++.exe") {
-		Run, Notepad++.exe, C:\Program Files (x86)\Notepad++\notepad++.exe
+		Run, "C:\Program Files\Notepad++\notepad++.exe"
 	} else if WinActive("ahk_exe notepad++.exe") {
 		WinMinimize
 	} else {
@@ -106,6 +156,7 @@ return
 	}
 return
 
+<#i::Send, {LWin Down}{6}{LWin Up}
 
 
 ;;;;;;;;;; AutoHotKey Related
@@ -132,7 +183,6 @@ return
 return
 
 <!F19::Suspend
-<!<+F19::Pause
 
 
 
